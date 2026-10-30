@@ -1,0 +1,92 @@
+name: Build and deploy docs
+
+# Build the Sphinx HTML (and PDF) and publish to GitHub Pages
+# on every push to main.
+
+on:
+  push:
+    branches: [main]
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+# Permissions required by the Pages deploy action
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time; don't cancel an in-progress one
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    # Hard cap so a hung build (e.g. LaTeX waiting on a prompt) fails fast
+    # instead of running for up to the 6-hour default.
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # Cache the downloaded .deb packages so the large TeX Live download does
+      # not repeat on every run. Stored in the workspace (user-owned) so the
+      # cache action can read/write it without permission issues.
+      - name: Cache APT packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.apt-cache
+          key: apt-pdf-${{ runner.os }}-v1
+
+      # PlantUML (for .. uml:: diagrams) + Inkscape (SVG -> PDF for LaTeX).
+      # latexmk + TeX Live provide the PDF build.
+      - name: Install system packages
+        run: |
+          mkdir -p "${{ github.workspace }}/.apt-cache"
+          sudo apt-get update
+          sudo apt-get -o Dir::Cache::Archives="${{ github.workspace }}/.apt-cache" \
+            install -y --no-install-recommends \
+            plantuml inkscape \
+            latexmk texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-fonts-extra tex-gyre \
+            texlive-pictures
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build HTML
+        run: sphinx-build -b html src/doc target/html
+
+      - name: Build PDF
+        run: |
+          sphinx-build -b latex src/doc target/latex
+          # Non-interactive LaTeX: on an error, fail immediately with the error
+          # in the log instead of hanging on a prompt (the cause of multi-hour runs).
+          make -C target/latex LATEXMKOPTS="-interaction=nonstopmode -halt-on-error"
+
+      - name: Include PDF in the site
+        run: cp target/latex/wg-charter.pdf target/html/wg-charter.pdf
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/html
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
