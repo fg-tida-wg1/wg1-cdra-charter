@@ -61,6 +61,11 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
+      # charter.md is the single source of truth of this charter.
+      # Generate src/doc/index.rst and src/doc/charter-meta.json from it.
+      - name: Generate charter sources from charter.md
+        run: python tools/md2charter_rst.py charter.md src/doc/index.rst
+
       - name: Build HTML
         run: sphinx-build -b html src/doc target/html
 

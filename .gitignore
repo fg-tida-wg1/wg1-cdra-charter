@@ -6,3 +6,6 @@ target/
 .venv/
 __pycache__/
 plantuml.jar
+# generated from charter.md by tools/md2charter_rst.py
+src/doc/index.rst
+src/doc/charter-meta.json
