@@ -19,13 +19,24 @@ pygments_style = 'colorful'
 # =============================================================================
 # FG-TIDA Working Group Charter metadata
 #
-# When a new WG repository is created from this template, authors should
-# update the values in this section.
+# This charter uses charter.md (repository root) as its single source of truth.
+# tools/md2charter_rst.py generates index.rst and charter-meta.json from it,
+# so title, acronym, version and status are edited in charter.md only.
 # =============================================================================
 
-project = 'CDRA'
-release = '0.4'
-html_title = 'CDRA Charter'
+import json
+
+_meta_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'charter-meta.json')
+if not os.path.exists(_meta_path):
+    raise RuntimeError(
+        'src/doc/charter-meta.json is missing. Generate the sources from charter.md first: '
+        'python3 tools/md2charter_rst.py charter.md src/doc/index.rst')
+with open(_meta_path, encoding='utf8') as _f:
+    _meta = json.load(_f)
+
+project = _meta['project']
+release = _meta['release']
+html_title = _meta['html_title']
 author = 'FG-TIDA'
 
 numfig = True
@@ -61,10 +72,10 @@ latex_documents = [
 # cover_subtitle = 'Charter version 1.0 — Approved'
 # ---------------------------------------------------------------------------
 
-cover_title = 'WG1: Continuous and Dynamic Remote Attestation for Agentic AI'
+cover_title = _meta['cover_title']
 cover_series = 'FG-TIDA Working Group Charter'
-cover_subject = 'CDRA'
-cover_subtitle = 'Charter version 0.4, Draft'
+cover_subject = _meta['cover_subject']
+cover_subtitle = _meta['cover_subtitle']
 
 # =============================================================================
 # Sphinx extensions

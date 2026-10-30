@@ -16,7 +16,11 @@ contribution into shape.
 
 ### Propose a change with a pull request
 
-**In your browser (easiest).** Open `src/doc/index.rst` on GitHub, click the
+The charter text lives in one file, `charter.md` (Markdown) in the repository root.
+It is the single source of truth: `src/doc/index.rst` is generated from it during
+the build and is not part of the repository.
+
+**In your browser (easiest).** Open `charter.md` on GitHub, click the
 pencil (✏️) icon, make your edit, write a short title, choose **Propose changes**,
 then **Create pull request**.
 
@@ -24,7 +28,7 @@ then **Create pull request**.
 
 ```shell
 git checkout -b update-scope
-# edit src/doc/index.rst
+# edit charter.md
 git commit -am "Describe your change"
 git push origin update-scope
 ```
@@ -77,11 +81,13 @@ Create your own copy of the template:
 - On GitHub, click **Use this template → Create a new repository**, or
 - clone this repository and push it to a repository of your own.
 
-The charter is a single source file:
+In this repository the charter is a single Markdown file:
 
-- `src/doc/index.rst` — the **charter itself**: the title, the front matter (version, date, status), and all its numbered sections. Replace the text in `<...>` with your own content.
+- `charter.md` is the **charter itself**: the title, the Charter Information table (version, date, status), and all its numbered sections.
+- `tools/md2charter_rst.py` generates `src/doc/index.rst` and `src/doc/charter-meta.json` from it. Both are generated files, listed in `.gitignore`, never edited by hand.
+- `src/doc/conf.py` reads title, acronym, version and status from `charter-meta.json`, so they are changed in `charter.md` only.
 
-Author guidance is built into that file: **source comments** (blocks beginning with `..`) above each section explain what to write, and never appear in the published HTML or PDF.
+Author guidance for each section is in [WG-ONBOARDING.md](WG-ONBOARDING.md) and in the [FG-TIDA charter template](https://github.com/FG-TIDA/wg-charter-template/blob/main/src/doc/index.rst).
 
 Keep the finished charter short — approximately 600–1,200 words.
 
@@ -115,8 +121,11 @@ You need this only to preview locally — the online build (step 5) needs no set
 **One-off build:**
 
 ```shell
+python3 tools/md2charter_rst.py charter.md src/doc/index.rst
 sphinx-build -b html src/doc target/html
 ```
+
+Run the first command again after every change to `charter.md`.
 
 Open `target/html/index.html` in a browser.
 
@@ -130,15 +139,17 @@ This starts a local server at <http://127.0.0.1:8000>, sets up PlantUML for you,
 
 ## 4. Edit the content
 
-All of your content lives in `src/doc/index.rst`. Edit it directly:
+All of your content lives in `charter.md`. Edit it directly, the converter understands this Markdown:
 
-- **Replace the placeholders.** Every `<...>` is a prompt for text you supply. Follow the per-section author guidance in the source comments, and delete sections marked *optional* if they do not apply.
-- **Text, tables, lists, admonitions** — the file itself is the best reference for the markup. For example, the Charter Information and section tables are reStructuredText `list-table` directives you can copy and adapt.
+- one `# ` title in the form `FG-TIDA WG1: <Full name> (<ACRONYM>)`, `## ` sections and `### ` subsections,
+- paragraphs with one sentence per line,
+- `* ` bullets, a second sentence of a bullet goes on an indented continuation line,
+- pipe tables (`|a|b|`), including the Charter Information table, whose version and status also feed the PDF cover.
 - **Add an image** — put it in `src/doc/images/` and reference it with a relative path. Use a single PNG so it works in both HTML and PDF.
 
 ## 5. Publish
 
-Pushing to the `main` branch automatically builds the HTML site and PDF and deploys them to GitHub Pages, via the workflow in `.github/workflows/docs.yml`.
+Pushing to the `main` branch automatically generates `src/doc/index.rst` from `charter.md`, builds the HTML site and PDF and deploys them to GitHub Pages, via the workflow in `.github/workflows/docs.yml`.
 
 To enable it on a new repository: in **Settings → Pages**, set **Source** to **GitHub Actions**. The published site then updates on every push.
 
@@ -147,6 +158,7 @@ To enable it on a new repository: in **Settings → Pages**, set **Source** to *
 The online build produces the PDF for you. To build it yourself you need a LaTeX distribution (TeX Live or MiKTeX):
 
 ```shell
+python3 tools/md2charter_rst.py charter.md src/doc/index.rst
 sphinx-build -b latex src/doc target/latex
 make -C target/latex
 ```

@@ -12,8 +12,10 @@ The Working Group is provisional until FG-TIDA approves it at its first meeting 
 
 ## Contributing
 
-The charter source is [src/doc/index.rst](src/doc/index.rst).
+The charter text is [charter.md](charter.md), the single source of truth.
+Every push to `main` generates the template's `src/doc/index.rst` from it and publishes the web page and PDF.
 Open an issue for questions and proposals, or a pull request for concrete text changes, as described in [CONTRIBUTING.md](CONTRIBUTING.md).
 Please do not push to `main` directly.
 
 The template's authoring guide is [WG-ONBOARDING.md](WG-ONBOARDING.md).
+Where it says to edit `src/doc/index.rst`, edit `charter.md` instead.

@@ -24,8 +24,18 @@ if (Test-Path $jar) {
 # because Sphinx does not track ".. include::" dependencies: without -a, editing
 # an included file (e.g. functional/_notification.rst) may not refresh the parent
 # page that includes it, so changes silently fail to appear.
+#
+# charter.md is the single source of truth: --pre-build regenerates
+# src/doc/index.rst and src/doc/charter-meta.json from it before every build,
+# --watch . notices edits to charter.md, and the two generated files are ignored
+# so that writing them does not trigger the next rebuild. The pre-build command
+# uses forward slashes because sphinx-autobuild splits it POSIX style.
 & (Join-Path $root ".venv\Scripts\sphinx-autobuild.exe") `
     "src\doc" "target\html" `
     -a `
     --open-browser `
+    --watch . `
+    --pre-build ".venv/Scripts/python.exe tools/md2charter_rst.py charter.md src/doc/index.rst" `
+    --ignore "src/doc/index.rst" `
+    --ignore "src/doc/charter-meta.json" `
     --ignore "*.tmp"
