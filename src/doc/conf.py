@@ -23,9 +23,9 @@ pygments_style = 'colorful'
 # update the values in this section.
 # =============================================================================
 
-project = '<WG acronym>'
-release = '<charter version>'
-html_title = '<WG acronym> Charter'
+project = 'CDRA'
+release = '0.4'
+html_title = 'CDRA Charter'
 author = 'FG-TIDA'
 
 numfig = True
@@ -61,10 +61,10 @@ latex_documents = [
 # cover_subtitle = 'Charter version 1.0 — Approved'
 # ---------------------------------------------------------------------------
 
-cover_title = '<Full name of the Working Group>'
+cover_title = 'WG1: Continuous and Dynamic Remote Attestation for Agentic AI'
 cover_series = 'FG-TIDA Working Group Charter'
-cover_subject = '<WG acronym>'
-cover_subtitle = '<Charter version and status>'
+cover_subject = 'CDRA'
+cover_subtitle = 'Charter version 0.4, Draft'
 
 # =============================================================================
 # Sphinx extensions

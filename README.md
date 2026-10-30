@@ -1,26 +1,19 @@
-# FG-TIDA Working Group Charter Template
+# WG1 charter: Continuous and Dynamic Remote Attestation for Agentic AI (CDRA)
 
-A template for writing an **FG-TIDA Working Group charter** and publishing it as a modern web page and a print-ready PDF — all from a single source file.
+Charter of Working Group 1 of the ITU-T Focus Group on Trust and Identity for Humans and Agentic AI (FG-TIDA).
+CDRA is a working title. The theme was presented as Remote Attestation for Agentic AI (RA-AAI).
 
-See it live:
-📄 [Web page](https://fg-tida.github.io/wg-charter-template/) · 📑 [PDF](https://fg-tida.github.io/wg-charter-template/wg-charter.pdf)
+WG1 enables dynamic remote attestation for AI agents that change while they run, and continuous enforcement of the flow of Attestation Results about them.
 
-## Quick start
+**Status:** draft 0.4, initial proposal for discussion.
+The Working Group is provisional until FG-TIDA approves it at its first meeting in Paris (30 November to 1 December 2026).
 
-1. In your Working Group's GitHub organization (`fg-tida-wg<n>`), click **Use this template → Create a new repository** and name it `wg<n>-<acronym>-charter`.
-2. In the new repo, enable publishing: **Settings → Pages → Source: GitHub Actions**.
-3. Write your charter in [src/doc/index.rst](src/doc/index.rst) — replace every `<placeholder>` with your content and follow the author guidance built into the file.
-4. Push to `main`. The web page and PDF publish automatically to `https://fg-tida-wg<n>.github.io/wg<n>-<acronym>-charter/`.
+📄 [Web page](https://fg-tida-wg1.github.io/wg1-cdra-charter/) · 📑 [PDF](https://fg-tida-wg1.github.io/wg1-cdra-charter/wg-charter.pdf)
 
-> **Tip:** Once your repo is created, replace this README with a short description of *your* working group — what it covers, its status, and a link to its published page.
+## Contributing
 
-## Documentation
+The charter source is [src/doc/index.rst](src/doc/index.rst).
+Open an issue for questions and proposals, or a pull request for concrete text changes, as described in [CONTRIBUTING.md](CONTRIBUTING.md).
+Please do not push to `main` directly.
 
-- **[WG-ONBOARDING.md](WG-ONBOARDING.md)** — step-by-step guide to writing the charter, section by section.
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** — how to contribute, and how to build, preview, and publish the document locally.
-
-## What's in this repository
-
-- [src/doc/index.rst](src/doc/index.rst) — the charter itself (the content you edit).
-- [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute, build, preview, and publish.
-- [WG-ONBOARDING.md](WG-ONBOARDING.md) — the author's guide.
+The template's authoring guide is [WG-ONBOARDING.md](WG-ONBOARDING.md).

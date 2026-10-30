@@ -5,8 +5,12 @@
 
 .. _wg-charter:
 
-FG-TIDA WG<n>: <Full name of the Working Group> (<ACRONYM>)
-=============================================================
+FG-TIDA WG1: Continuous and Dynamic Remote Attestation for Agentic AI (CDRA)
+============================================================================
+
+*Working title, open for revision.*
+
+TL;DR WG1 enables dynamic remote attestation for AI agents that change while they run, and continuous enforcement of the flow of Attestation Results about them.
 
 Charter Information
 -------------------
@@ -16,14 +20,13 @@ Charter Information
    :widths: 30 70
 
    * - **Charter version**
-     - <v0.x>
+     - 0.4
 
    * - **Date**
-     - <YYYY-MM-DD>
+     - 2026-10-29
 
    * - **Status**
-     - <Draft / Under review / Approved by FG-TIDA on YYYY-MM-DD>
-
+     - Draft, initial proposal for discussion
 
 1. Group Information
 --------------------
@@ -48,26 +51,34 @@ Charter Information
      - Content
 
    * - Working group name and acronym
-     - <Full name> (<ACRONYM>)
+     - Continuous and Dynamic Remote Attestation for Agentic AI (CDRA), working title, presented as Remote Attestation for Agentic AI (RA-AAI)
 
-   * - FG-TIDA theme(s) covered
-     - <Theme(s) from the FG-TIDA Terms of Reference>
+   * - Basis
+     - RA-AAI roadmap v1.0, presented at the FG-TIDA preparation meeting of 30 September 2026
+
+   * - FG-TIDA ToR items covered
+     - Clauses 4.2 to 4.5, with Annex A examples A.2.1, A.2.2, A.2.7 and A.2.8
 
    * - Chair(s) / co-chairs
-     - <Name, affiliation>
+     - TBD
 
    * - Editor(s) of the main deliverables
-     - <Name, affiliation, if known>
+     - TBD
+
+   * - Theme proposers
+     - Henk Birkholz, Houda Labiod (Huawei)
 
    * - Mailing list
-     - <Mailing list>
+     - TBD
 
    * - Repository and issue tracker
-     - <GitHub repository URL>
+     - https://github.com/fg-tida-wg1/wg1-cdra-charter
+
+   * - Working methods
+     - Rough consensus, co-chairs, empowered editors, bi-weekly calls, and workshops or webinars where useful
 
    * - Charter status and version
-     - <Status and version>
-
+     - Draft 0.4
 
 2. Background and Problem Statement
 -----------------------------------
@@ -96,8 +107,23 @@ Charter Information
    - claims about a particular vendor or product;
    - undefined buzzwords.
 
-<Describe the background and problem here.>
+AI agents plan, call tools and act on behalf of people.
+Before a service hands an agent a payment, a secret or a production system, it needs to know what is actually running, presented continuously as fresh Evidence.
 
+Remote attestation answers this question in the form of snapshots for platforms today.
+An Attester produces Evidence about its state, and a Verifier appraises that Evidence and issues Attestation Results that other services rely on.
+This works well for systems that are checked once at start and then stay (mostly) the same.
+Evidence from such snapshots demonstrates what code is running where, but not what an agent's context or intent actually is.
+
+Agentic AI breaks these assumptions along three questions.
+
+* What to measure: agents are dynamic composites of model, code, tools, policies and a context of instructions, data and memory, and any part can change at runtime.
+
+* How to appraise and act: each service enforces its own rules on Attestation Results, and agents rely on other agents when they delegate.
+  Many legacy services can neither produce Evidence nor read Attestation Results.
+
+* When to refresh: a check at an agent's start-up is not enough to demonstrate the trustworthiness of its next action.
+  Therefore, Evidence and Attestation Results about a set of related agents have to flow continuously.
 
 3. Goals
 --------
@@ -125,12 +151,18 @@ Charter Information
    Do not claim authority reserved for ITU-T Study Groups, such as approving
    ITU-T Recommendations.
 
-* The Working Group will <goal 1>.
+The Working Group focuses on pre-standardization work toward open, interoperable and privacy-preserving remote attestation of AI agents, so that any user or service can rely on any agent from any environment.
 
-* The Working Group will <goal 2>.
+The Working Group describes what to measure, how to appraise and act, and when to refresh, and maps existing building blocks and remaining gaps (Deliverable 1).
 
-* The Working Group will <goal 3>.
+* What: The Working Group specifies requirements for Evidence about an agent's dynamically changing parts and a signed manifest of them (Deliverable 2).
 
+* How: The Working Group specifies requirements for enforcing decisions based on Attestation Results, by policy or by technology, even when results are stale, missing or negative (Deliverable 3).
+  It also specifies requirements for including legacy systems (Deliverable 4).
+
+* When: The Working Group specifies requirements for keeping Evidence and Attestation Results continuously fresh, with triggers keyed to risk (Deliverable 2).
+
+The Working Group reuses existing specifications where possible and drafts requirements as base material for SG17.
 
 4. Scope and Non-Goals
 ----------------------
@@ -145,12 +177,17 @@ In Scope
 
    Identify clearly what work belongs to this Working Group.
 
-* <In-scope item 1>
+* What: Evidence about an agent's parts, context and observed behaviour, and a signed manifest of its parts, as they change at runtime.
 
-* <In-scope item 2>
+* How: Binding Evidence to the agent's platform and identity, and disclosing it in a privacy-preserving way.
 
-* <In-scope item 3>
+* How: Acting on Attestation Results, including stale or missing ones, and trustworthy enforcement points for the resulting decisions.
 
+* How: Patterns that let legacy systems benefit from remote attestation, such as credentials issued only after a successful appraisal and valid no longer than the appraisal.
+
+* How: If FG-TIDA management confirms this item, requirements for agent interaction protocols to find and carry Evidence and Attestation Results.
+
+* When: Risk-keyed triggers for fresh Evidence and new appraisals, such as elapsed time, restarts, tool calls, delegation and changes to an agent's parts, and how long Attestation Results about a set of related agents stay valid.
 
 Out of Scope / Non-Goals
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -169,13 +206,13 @@ Out of Scope / Non-Goals
 
    Avoid defining the same deliverable under more than one WG.
 
-* The Working Group will not <non-goal 1>.
+The Working Group does not address AI governance or design agent interaction protocols.
 
-* The Working Group will not <non-goal 2>.
+The Working Group does not decide on individual agent actions, authorization or privileges, but states requirements on the Attestation Results such decisions rely on.
 
-* <Topic> is outside this WG's scope and is addressed by <WG / SG17 Question /
-  external organization>.
+The Working Group does not define new formats, protocols or languages for Evidence, Attestation Results or appraisal policies, nor agent identifiers or new hardware.
 
+The Working Group does not define training provenance, which it consumes, nor benchmark or evaluate the security of agents.
 
 5. Programme of Work and Deliverables
 -------------------------------------
@@ -208,15 +245,24 @@ Out of Scope / Non-Goals
      - Input documents
 
    * - 1
-     - <Deliverable 1>
-     - <Description>
-     - <Input, if any>
+     - White paper: Remote Attestation Challenges for Agentic AI Systems (Technical Report)
+     - What to measure in an agent, how to appraise Evidence and act on Attestation Results, and when to refresh them, with threats, state of the art, gaps and existing building blocks.
+     - WG1 white paper outline (September 2026), RA-AAI roadmap v1.0
 
    * - 2
-     - <Deliverable 2>
-     - <Description>
-     - <Input, if any>
+     - Requirements for continuous and dynamic remote attestation of agentic AI systems (Technical Specification)
+     - What Evidence and a signed agent manifest must demonstrate as an agent's parts change, when fresh Evidence and new appraisals are due, how long Attestation Results about a set of related agents stay valid, and, if confirmed, how agent interactions carry them.
+     - Deliverable 1, RA-AAI roadmap v1.0
 
+   * - 3
+     - Requirements for acting on Attestation Results (Technical Specification)
+     - How services and agents that rely on Attestation Results behave by default, handle stale, missing or negative results, record the Attestation Results a decision used, and keep enforcement points trustworthy.
+     - Deliverable 1
+
+   * - 4
+     - Requirements for including legacy systems in remote attestation (Technical Specification)
+     - How legacy services benefit through credentials issued after a successful appraisal and valid no longer than the appraisal, which trust is lost on the way, and what issuers must meet.
+     - Deliverable 1
 
 6. Milestones
 -------------
@@ -249,15 +295,17 @@ Out of Scope / Non-Goals
    * - Target date
      - Milestone
 
-   * - <Meeting / YYYY-MM>
-     - First draft of <deliverable 1> available in the repository.
+   * - 2026-12 (Paris)
+     - Charter agreed and white paper outline proposed as working draft.
 
-   * - <Meeting / YYYY-MM>
-     - <Deliverable 1> agreed by the Working Group.
+   * - 2027-01 (Geneva)
+     - First draft of Deliverable 1 and outlines of Deliverables 2 to 4.
 
-   * - <Meeting / YYYY-MM>
-     - <Deliverable 1> submitted to the FG-TIDA plenary.
+   * - TBD (3rd FG-TIDA meeting)
+     - Deliverable 1 agreed by the Working Group, first drafts of Deliverables 2 to 4.
 
+   * - TBD (within the FG-TIDA lifetime)
+     - Deliverables 1 to 4 submitted to the FG-TIDA plenary in time for SG17.
 
 7. Coordination, Dependencies and Liaisons
 ------------------------------------------
@@ -289,85 +337,26 @@ Out of Scope / Non-Goals
    * - Group / Organization
      - Coordination or dependency
 
-   * - <FG-TIDA WG / SG17 Question / organization>
-     - <Describe the relationship>
+   * - Other FG-TIDA Working Groups
+     - Interfaces on authorization, action records, agent identity, terminology and use cases.
 
-   * - <Organization>
-     - <Describe the relationship>
+   * - ITU-T SG17 Q16/17 (AI security)
+     - Agent runtime security, a likely recipient of Deliverables 2 and 3.
 
+   * - ITU-T SG17 Q10/17 (identity management)
+     - Proposed continuous checking of agent operation, to align with Deliverable 2.
 
-8. Terminology
---------------
+   * - ITU-T SG17 Q2/17, Q4/17 and Q6/17
+     - Zero trust, assurance, and IoT and industrial systems, relevant to Deliverables 3 and 4.
 
-..
-   OPTIONAL
+   * - IETF Remote Attestation Procedures (RATS) Working Group
+     - Architecture, terms and formats to build on, possible agent profiles of them, reported gaps, review of Deliverables 2 to 4.
 
-   AUTHOR GUIDANCE:
+   * - TCG, Confidential Computing Consortium, GlobalPlatform, W3C
+     - Remote attestation building blocks, credential bridges, and manifests that describe agents.
 
-   Include this section only where WG-specific terminology is needed.
-
-   Prefer a reference to FG-TIDA terminology work.
-
-   Limit this section to approximately three to five terms.
-
-   Do not create a complete glossary here.
-
-The Working Group will use the common FG-TIDA terminology where applicable. 
-Should the Working Group define new terminology, this shall be communicated to the FG-TIDA terminology & use cases WG that maintains the common terminology repository. 
-
-.. list-table::
-   :header-rows: 1
-   :widths: 30 70
-
-   * - Term
-     - Meaning
-
-   * - <Term>
-     - <Definition>
-
-9. Use Cases
---------------
-
-..
-   OPTIONAL
-
-   AUTHOR GUIDANCE:
-
-   Include this section only where WG-specific use cases is needed.
-
-   Prefer a reference to FG-TIDA use cases work.
-
-   Limit this section to approximately three use cases.
-
-   Do not create a complete set of use cases here.
-
-The Working Group will define use cases relevant to this problem domain. 
-This shall be communicated to the FG-TIDA terminology & use cases WG that maintains the common use cases repository. 
-
-10. Working Methods
-------------------
-
-..
-   OPTIONAL
-
-   AUTHOR GUIDANCE:
-
-   Include only working practices that differ from the general FG-TIDA
-   working methods.
-
-   Examples include:
-
-   - how GitHub issues are used;
-   - how draft documents are adopted;
-   - special interim calls.
-
-   Do not repeat ITU-T or FG-TIDA general procedural rules.
-
-<Describe any WG-specific working methods, or delete this section if none.>
-
-
-11. Security and Privacy Considerations
----------------------------------------
+8. Security and Privacy Considerations
+--------------------------------------
 
 ..
    OPTIONAL - RECOMMENDED
@@ -389,11 +378,12 @@ This shall be communicated to the FG-TIDA terminology & use cases WG that mainta
 
    Avoid generic disclaimers.
 
-<Describe the relevant security and privacy considerations.>
+Evidence can reveal sensitive details, so all deliverables address privacy-preserving disclosure: what Evidence reveals, to whom, and how linkable it makes agents and people.
+Missing, stale or unverifiable Attestation Results count as a risk, never as a success.
+A missing update about an agent calls for fresh Evidence and never demonstrates that nothing changed.
 
-
-12. Success Criteria and Conclusion
------------------------------------
+9. Success Criteria and Conclusion
+----------------------------------
 
 ..
    OPTIONAL
@@ -410,13 +400,10 @@ This shall be communicated to the FG-TIDA terminology & use cases WG that mainta
 
    Do not describe future approval by SG17 as guaranteed.
 
-The Working Group will have completed its chartered work when
-<success criterion>.
+The chartered work is complete when all four deliverables are submitted to the FG-TIDA plenary.
+They then go to SG17 through FG-TIDA, with Deliverables 2 to 4 as base material, and may inform other standards bodies.
 
-Following completion, <describe the expected next step, if applicable>.
-
-
-13. Revision History
+10. Revision History
 --------------------
 
 ..
@@ -436,6 +423,6 @@ Following completion, <describe the expected next step, if applicable>.
      - Date
      - Change
 
-   * - 0.1
-     - <YYYY-MM-DD>
-     - First draft
+   * - 0.4
+     - 2026-10-29
+     - First draft of the charter
