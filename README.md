@@ -3,9 +3,9 @@
 Charter of Working Group 1 of the ITU-T Focus Group on Trust and Identity for Humans and Agentic AI (FG-TIDA).
 CDRA is a working title. The theme was presented as Remote Attestation for Agentic AI (RA-AAI).
 
-WG1 enables dynamic remote attestation for AI agents that change while they run, and continuous enforcement of the flow of Attestation Results about them.
+WG1 enables dynamic attestation and continuous attestation for AI agents that evolve during their execution, with the associated flow of Attestation Results as one input to enforcement.
 
-**Status:** draft 0.4, initial proposal for discussion.
+**Status:** draft 0.5, initial proposal for discussion.
 The Working Group is provisional until FG-TIDA approves it at its first meeting in Paris (30 November to 1 December 2026).
 
 📄 [Web page](https://fg-tida-wg1.github.io/wg1-cdra-charter/) · 📑 [PDF](https://fg-tida-wg1.github.io/wg1-cdra-charter/wg-charter.pdf)
