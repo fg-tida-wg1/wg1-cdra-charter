@@ -128,8 +128,9 @@ Missing, stale or unverifiable Attestation Results are a risk, and the absence o
 
 ## 9\. Success Criteria and Conclusion
 
-The chartered work is complete when all six deliverables are submitted to the FG-TIDA plenary.
-The deliverables are pre-standardization results that may be offered to SG17 and to other standards bodies and industry consortia, such as the IETF, TCG, GlobalPlatform, the Confidential Computing Consortium and W3C.
+The chartered work of the Working Group ends when all six deliverables are close to completion and the FG-TIDA plenary approves them by consensus.
+FG-TIDA then dispatches the deliverables to SG17, its parent group, and through liaison statements to other standards bodies and industry consortia, such as the IETF, TCG, GlobalPlatform, the Confidential Computing Consortium and W3C.
+SG17 and these bodies can complete the standardization, for example with ITU-T Recommendations.
 
 ## 10\. Revision History
 
